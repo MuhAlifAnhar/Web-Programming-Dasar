@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OP Dashboard (Order Pembelian)</title>
+
+    <!-- Bootstrap & jQuery & DataTables & PapaParse -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .table thead th {
+        text-align: center;
+      }
+      .table-hover tbody tr:hover {
+        background-color: #f1f3f5;
+      }
+      .card {
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        background-color: #fff;
+        margin-bottom: 12px;
+      }
+      .card-header {
+        font-size: 14px;
+        background-color: #292b2e;
+        color: #fff;
+        padding: 6px 10px;
+      }
+      .card-body {
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+      .small-label {
+        font-size: 12px;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-3 mb-5">
+      <h3 class="text-center mb-3">OP (Order Pembelian) — Dashboard</h3>
+
+      <div class="table-responsive">
+        <table
+          id="opTable"
+          class="table table-striped table-hover table-bordered"
+          style="width: 100%"
+        >
+          <thead class="table-dark">
+            <tr>
+              <th>TransID</th>
+              <th>Tanggal</th>
+              <th>ID - Nama Karyawan</th>
+              <th>Cabang</th>
+              <th>Keperluan</th>
+              <th>Kode Langganan</th>
+              <th>No Pinjam</th>
+              <th>No MK</th>
+              <th>No Pakai</th>
+              <th>No Invoice</th>
+              <th>Progress</th>
+              <th>Link Form</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Modal detail -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header bg-dark text-white">
+            <h5 class="modal-title">Detail Order Pembelian</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body" id="modalBodyContent"></div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">
+              Tutup
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /*
+  This version reads CSV as arrays (header:false) so we can read by column index.
+  Column index mapping (zero-based):
+    A=0, B=1, C=2, D=3, E=4, F=5, G=6, H=7, I=8, J=9,
+    K=10, L=11, M=12, N=13, O=14, P=15, Q=16, R=17, S=18, T=19,
+    U=20, V=21, W=22, X=23, Y=24, Z=25, AA=26, AB=27, AC=28, AD=29,
+    AE=30, AF=31, AG=32, AH=33, AI=34, AJ=35, AK=36, AL=37, AM=38, AN=39
+*/
+
+      const csvUrl =
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTgFVU5uh5mKvnk1z7_tvmjWV1rV4QURPNQWySOvFt5HL-Hdo2D-2kA8uN3NzxAe7WQBB2oRPwr7n-z/pub?gid=12863231&single=true&output=csv";
+
+      let headerRow = []; // header titles (row 0)
+      let dataRows = []; // array of arrays for each data row (row1..)
+
+      function safe(v) {
+        return v === undefined || v === null || String(v).trim() === ""
+          ? "-"
+          : String(v);
+      }
+      function mkHref(v) {
+        if (!v) return "#";
+        const s = String(v).trim();
+        return s.startsWith("http") ? s : "//" + s;
+      }
+      function toISODateIfPossible(v) {
+        if (!v) return "";
+        const d = new Date(v);
+        if (isNaN(d)) return "";
+        return d.toISOString();
+      }
+
+      // form templates (same as earlier)
+      const FORM_TEMPLATES = {
+        COMPLETE_PINJAM: {
+          base: "https://docs.google.com/forms/d/e/1FAIpQLSdVsv0JTkIqsfVkhlkw23RY1WjUqnp19s9drnybDODO0ZbQIg/viewform?usp=pp_url",
+          params: { transid: "entry.2064848191", noPinjam: "entry.460873802" },
+        },
+        COMPLETE_PAKAI: {
+          base: "https://docs.google.com/forms/d/e/1FAIpQLSe8Jh7oPmx9uvpfgCwTZQ8RqRmOup5AagaAGk9TFJ-08XhugA/viewform?usp=pp_url",
+          params: { transid: "entry.432593474", noPakai: "entry.1727915460" },
+        },
+        PENGEMBALIAN_BARANG: {
+          base: "https://docs.google.com/forms/d/e/1FAIpQLScJZoqFXjI192kFfaiWEs21bKfkFuhNBMPoNJq43pOnNVSMgw/viewform?usp=pp_url",
+          params: { transid: "entry.572093642", noPinjam: "entry.1649777772" },
+        },
+        PEMAKAIAN_BARANG: {
+          base: "https://docs.google.com/forms/d/e/1FAIpQLSeoytV3aY1jc--oPTw5wUfItQFE7oryB0N5fW_88XaGLN2DuQ/viewform?usp=pp_url",
+          params: { transid: "entry.2146827387", noPakai: "entry.571553466" },
+        },
+      };
+
+      // helpers to access columns by zero-based index directly from row array
+      function col(row, idx) {
+        if (!row) return "";
+        return idx < 0 || idx >= row.length ? "" : row[idx];
+      }
+
+      // build form URL from AN label using row array (indexes used: D=3, I=8, X=23)
+      function buildFormUrlFromLabel(label, row) {
+        if (!label) return "";
+        const L = String(label).toUpperCase().trim();
+        const transid = String(col(row, 3) || "").trim();
+        const noPinjam = String(col(row, 8) || "").trim();
+        const noPakai = String(col(row, 23) || "").trim();
+
+        if (L.includes("COMPLETE PINJAM")) {
+          const tpl = FORM_TEMPLATES.COMPLETE_PINJAM;
+          return `${tpl.base}&${tpl.params.transid}=${encodeURIComponent(
+            transid
+          )}&${tpl.params.noPinjam}=${encodeURIComponent(noPinjam)}`;
+        }
+        if (L.includes("COMPLETE PAKAI")) {
+          const tpl = FORM_TEMPLATES.COMPLETE_PAKAI;
+          return `${tpl.base}&${tpl.params.transid}=${encodeURIComponent(
+            transid
+          )}&${tpl.params.noPakai}=${encodeURIComponent(noPakai)}`;
+        }
+        if (L.includes("PENGEMBALIAN")) {
+          const tpl = FORM_TEMPLATES.PENGEMBALIAN_BARANG;
+          return `${tpl.base}&${tpl.params.transid}=${encodeURIComponent(
+            transid
+          )}&${tpl.params.noPinjam}=${encodeURIComponent(noPinjam)}`;
+        }
+        if (L.includes("PEMAKAIAN")) {
+          const tpl = FORM_TEMPLATES.PEMAKAIAN_BARANG;
+          return `${tpl.base}&${tpl.params.transid}=${encodeURIComponent(
+            transid
+          )}&${tpl.params.noPakai}=${encodeURIComponent(noPakai)}`;
+        }
+        return "";
+      }
+
+      $(document).ready(function () {
+        // parse CSV as arrays so we can index by column
+        Papa.parse(csvUrl, {
+          download: true,
+          header: false,
+          skipEmptyLines: true,
+          complete: function (results) {
+            const all = results.data || [];
+            if (all.length === 0) {
+              $("#tableBody").html(
+                '<tr><td colspan="13" class="text-center">Tidak ada data</td></tr>'
+              );
+              return;
+            }
+            headerRow = all[0] || [];
+            dataRows = all.slice(1);
+            buildTableFromRows(dataRows);
+
+            if ($.fn.DataTable.isDataTable("#opTable")) {
+              $("#opTable").DataTable().destroy();
+            }
+            $("#opTable").DataTable({
+              responsive: true,
+              pageLength: 15,
+              order: [[1, "desc"]],
+              columnDefs: [{ targets: [10], className: "text-center" }],
+            });
+          },
+          error: function (err) {
+            console.error("PapaParse error", err);
+            $("#tableBody").append(
+              '<tr><td colspan="13">Gagal memuat CSV</td></tr>'
+            );
+          },
+        });
+      });
+
+      // Build main table using dataRows (array-of-arrays)
+      function buildTableFromRows(rows) {
+        const $tbody = $("#tableBody");
+        $tbody.empty();
+        if (!rows || rows.length === 0) {
+          $tbody.append(
+            '<tr><td colspan="13" class="text-center">Tidak ada data</td></tr>'
+          );
+          return;
+        }
+
+        rows.forEach((r, idx) => {
+          // ini dibaca berdasarkan indeks kolom dari 0=A
+          const transID = safe(col(r, 3)); // D
+          const dateRaw = col(r, 1); // B
+          const dateOrder = toISODateIfPossible(dateRaw);
+          const idNama = safe(col(r, 4)); // E
+          const cabang = safe(col(r, 5)); // F
+          const keperluan = safe(col(r, 6)); // G
+          const kodeLang = safe(col(r, 7)); // H
+          const noPinjam = safe(col(r, 8)); // I
+          const noMK = safe(col(r, 9)); // J
+          const noPakai = safe(col(r, 23)); // X
+          const noInvoice = safe(col(r, 24)); // Y
+          const progress = safe(col(r, 38)); // AM
+          const rawLinkForm = col(r, 39); // AN (pake url ke gform)
+
+          // determine Link Form href/label
+          let linkHref = "";
+          let linkLabel = "-";
+          if (rawLinkForm && String(rawLinkForm).trim() !== "") {
+            const v = String(rawLinkForm).trim();
+            if (
+              v.toLowerCase().startsWith("http") ||
+              v.indexOf("docs.google.com/forms") >= 0
+            ) {
+              linkHref = v;
+              linkLabel = "Form";
+            } else {
+              // treat as label: try construct
+              const built = buildFormUrlFromLabel(v, r);
+              if (built) {
+                linkHref = built;
+                linkLabel = v;
+              } else {
+                linkLabel = v;
+              }
+            }
+          }
+
+          const $tr = $("<tr>");
+          $tr.append($("<td>").text(transID));
+          $tr.append(
+            $("<td>").attr("data-order", dateOrder).text(safe(dateRaw))
+          );
+          $tr.append($("<td>").text(idNama));
+          $tr.append($("<td>").text(cabang));
+          $tr.append($("<td>").text(keperluan));
+          $tr.append($("<td>").text(kodeLang));
+          $tr.append($("<td>").text(noPinjam));
+          $tr.append($("<td>").text(noMK));
+          $tr.append($("<td>").text(noPakai));
+          $tr.append($("<td>").text(noInvoice));
+          $tr.append($("<td>").text(progress));
+
+          if (linkHref) {
+            $tr.append(
+              $("<td>").html(
+                `<a class="btn btn-sm btn-outline-primary" href="${mkHref(
+                  linkHref
+                )}" target="_blank">${linkLabel || "Form"}</a>`
+              )
+            );
+          } else {
+            $tr.append($("<td>").text(linkLabel === "-" ? "-" : linkLabel));
+          }
+
+          const lihatBtn = $("<button>")
+            .addClass("btn btn-sm btn-primary")
+            .attr("data-index", idx)
+            .text("Lihat")
+            .on("click", function () {
+              showModalDetailByRowIndex($(this).data("index"));
+            });
+          $tr.append($("<td>").append(lihatBtn));
+
+          $tbody.append($tr);
+        });
+      }
+
+      // show modal using row index in dataRows
+      function showModalDetailByRowIndex(rowIndex) {
+        const row = dataRows[rowIndex];
+        if (!row) {
+          $("#modalBodyContent").html("<p>Data tidak ditemukan</p>");
+          const m = new bootstrap.Modal(document.getElementById("detailModal"));
+          m.show();
+          return;
+        }
+
+        // basic fields same as above
+        const data = {
+          transid: safe(col(row, 3)),
+          date: safe(col(row, 1)),
+          idnama: safe(col(row, 4)),
+          cabang: safe(col(row, 5)),
+          keperluan: safe(col(row, 6)),
+          kodeLangganan: safe(col(row, 7)),
+          noPinjam: safe(col(row, 8)),
+          noMK: safe(col(row, 9)),
+          uploadPinjam: col(row, 22), // W
+          noPakai: safe(col(row, 23)),
+          noInvoice: safe(col(row, 24)),
+          uploadPakai: col(row, 37), // AL
+          progress: safe(col(row, 38)),
+          rawLinkForm: col(row, 39),
+        };
+
+        // Pinjam items by fixed column pairs (K/L, M/N, O/P, Q/R, S/T, U/V)
+        const pinjamCols = [
+          [10, 11],
+          [12, 13],
+          [14, 15],
+          [16, 17],
+          [18, 19],
+          [20, 21],
+        ];
+        const pinjamItems = [];
+        pinjamCols.forEach((pair, i) => {
+          const kode = col(row, pair[0]);
+          const qty = col(row, pair[1]);
+          if (
+            (kode && String(kode).trim() !== "") ||
+            (qty && String(qty).trim() !== "")
+          ) {
+            pinjamItems.push({ kode: safe(kode), qty: safe(qty) });
+          }
+        });
+
+        // Pakai items by fixed column pairs (Z/AA, AB/AC, AD/AE, AF/AG, AH/AI, AJ/AK)
+        const pakaiCols = [
+          [25, 26],
+          [27, 28],
+          [29, 30],
+          [31, 32],
+          [33, 34],
+          [35, 36],
+        ];
+        const pakaiItems = [];
+        pakaiCols.forEach((pair, i) => {
+          const kode = col(row, pair[0]);
+          const qty = col(row, pair[1]);
+          if (
+            (kode && String(kode).trim() !== "") ||
+            (qty && String(qty).trim() !== "")
+          ) {
+            pakaiItems.push({ kode: safe(kode), qty: safe(qty) });
+          }
+        });
+
+        // Link Form logic (same as table)
+        let linkHref = "";
+        let linkLabel = "-";
+        if (data.rawLinkForm && String(data.rawLinkForm).trim() !== "") {
+          const v = String(data.rawLinkForm).trim();
+          if (
+            v.toLowerCase().startsWith("http") ||
+            v.indexOf("docs.google.com/forms") >= 0
+          ) {
+            linkHref = v;
+            linkLabel = "Form";
+          } else {
+            const built = buildFormUrlFromLabel(v, row);
+            if (built) {
+              linkHref = built;
+              linkLabel = v;
+            } else {
+              linkLabel = v;
+            }
+          }
+        }
+
+        // Build modal HTML
+        let html = '<div class="container-fluid">';
+        html += '<div class="row mb-2">';
+        html += cardCol("TransID", data.transid);
+        html += cardCol("Tanggal", data.date);
+        html += cardCol("ID - Nama Karyawan", data.idnama);
+        html += cardCol("Cabang", data.cabang);
+        html += "</div>";
+
+        html += '<div class="row mb-2">';
+        html += cardCol("Keperluan", data.keperluan, 12);
+        html += "</div>";
+
+        html += '<div class="row mb-2">';
+        html += cardCol("Kode Langganan", data.kodeLangganan);
+        html += cardCol("No Pinjam", data.noPinjam);
+        html += cardCol("No MK", data.noMK);
+        html += cardCol("No Pakai", data.noPakai);
+        html += cardCol("No Invoice", data.noInvoice);
+        html += "</div>";
+
+        html += '<div class="row mb-2">';
+        html += cardCol(
+          "Upload Pinjam",
+          data.uploadPinjam
+            ? `<a href="${mkHref(data.uploadPinjam)}" target="_blank">Lihat</a>`
+            : "-"
+        );
+        html += cardCol(
+          "Upload Pakai",
+          data.uploadPakai
+            ? `<a href="${mkHref(data.uploadPakai)}" target="_blank">Lihat</a>`
+            : "-"
+        );
+        html += cardCol("Progress", data.progress);
+        html += cardCol(
+          "Link Form",
+          linkHref
+            ? `<a href="${mkHref(linkHref)}" target="_blank">${safe(
+                linkLabel
+              )}</a>`
+            : safe(linkLabel)
+        );
+        html += "</div>";
+
+        // Pinjam table
+        html +=
+          '<div class="row mt-3"><div class="col-12"><h6>Detail Barang — Pinjam</h6>';
+        if (pinjamItems.length === 0) {
+          html +=
+            '<div class="card"><div class="card-body">Tidak ada item pinjam</div></div>';
+        } else {
+          html +=
+            '<div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>#</th><th>Kode Barang</th><th>QTY</th></tr></thead><tbody>';
+          pinjamItems.forEach((it, i) => {
+            html += `<tr><td>${i + 1}</td><td>${safe(it.kode)}</td><td>${safe(
+              it.qty
+            )}</td></tr>`;
+          });
+          html += "</tbody></table></div>";
+        }
+        html += "</div></div>";
+
+        // Pakai table
+        html +=
+          '<div class="row mt-3"><div class="col-12"><h6>Detail Barang — Pakai</h6>';
+        if (pakaiItems.length === 0) {
+          html +=
+            '<div class="card"><div class="card-body">Tidak ada item pakai</div></div>';
+        } else {
+          html +=
+            '<div class="table-responsive"><table class="table table-sm table-bordered"><thead class="table-light"><tr><th>#</th><th>Kode Barang</th><th>QTY</th></tr></thead><tbody>';
+          pakaiItems.forEach((it, i) => {
+            html += `<tr><td>${i + 1}</td><td>${safe(it.kode)}</td><td>${safe(
+              it.qty
+            )}</td></tr>`;
+          });
+          html += "</tbody></table></div>";
+        }
+        html += "</div></div>";
+
+        html += "</div>"; // container-fluid end
+
+        $("#modalBodyContent").html(html);
+        const m = new bootstrap.Modal(document.getElementById("detailModal"));
+        m.show();
+      }
+
+      function cardCol(title, body, colSize = 3) {
+        return `<div class="col-12 col-md-${colSize}"><div class="card"><div class="card-header">${title}</div><div class="card-body">${body}</div></div></div>`;
+      }
+    </script>
+  </body>
+</html>
