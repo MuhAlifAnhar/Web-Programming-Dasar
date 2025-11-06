@@ -4,5 +4,7 @@ body {
 
 .jumbotron {
     padding-top: 2rem;
+    padding-bottom: 0; 
     background-color: #ffe2e2;
 }
+
