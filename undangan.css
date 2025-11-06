@@ -10,9 +10,19 @@ body {
     min-height: 2000px;
 }
 
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(img/undangan2.png);
+    z-index:-1;
+}
+
 .hero {
     min-height: 100vh;
-    background-color: var(--bg);
 }
 
 .hero h1 {
