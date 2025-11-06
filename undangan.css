@@ -1,0 +1,82 @@
+:root {
+    --pink: #f14e95;
+    --bg: #0a0a0a;
+    --shadow: 0 2px 2px rgb(0, 0, 0 / 0.5);
+}
+
+body {
+    font-size: 1.2rem;
+    font-family: "Work Sans", sans-serif;
+    min-height: 2000px;
+}
+
+.hero {
+    min-height: 100vh;
+    background-color: var(--bg);
+}
+
+.hero h1 {
+    font-family: "Sacramento", cursive;
+    font-size: 6rem;
+}
+
+.hero h4 {
+    font-size: 1.6rem;
+}
+
+.hero p {
+    font-size: 1.4rem;
+}
+
+.hero a {
+    color: var(--pink);
+    background-color: white;
+}
+
+.hero a:hover {
+    background-color: var(--pink);
+    color: white;
+}
+
+.my-super-countdown {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.my-super-countdown .simply-section {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 14px;
+  padding: 12px 18px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.35);
+  color: #fff;
+  min-width: 70px;
+  transition: 0.3s;
+}
+
+.my-super-countdown .simply-section:hover {
+  transform: translateY(-4px);
+}
+
+.my-super-countdown .simply-amount {
+  font-size: 2rem;
+  font-weight: 600;
+  display: block;
+  font-family: 'Work Sans', sans-serif;
+}
+
+.my-super-countdown .simply-word {
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: 'Work Sans', sans-serif;
+}
+
+.my-super-countdown .simply-section {
+  background: #fff;
+  border: 1px solid #d4c29e;
+  color: #f14e95;
+}
