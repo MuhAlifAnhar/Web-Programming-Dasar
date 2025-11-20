@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Background elegan */
+      body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #1f1c2c, #928dab);
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        color: #fff;
+      }
+
+      /* Contact card */
+      .contact-card {
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(10px);
+        border-radius: 18px;
+        padding: 35px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        animation: fadeIn 0.6s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .contact-card label {
+        color: #f1f1f1;
+        font-weight: 500;
+      }
+
+      .form-control {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: #fff;
+      }
+
+      .form-control:focus {
+        background: rgba(255, 255, 255, 0.3);
+        color: #fff;
+        box-shadow: 0 0 0 0.18rem rgba(255, 255, 255, 0.25);
+      }
+
+      /* Tombol elegan */
+      #btnSubmit {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        border: none;
+        color: #fff;
+        padding: 10px 25px;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        position: relative;
+        cursor: pointer;
+      }
+
+      /* Hover glow effect */
+      #btnSubmit:hover {
+        transform: scale(1.06);
+        box-shadow: 0 0 18px rgba(111, 66, 193, 0.7);
+      }
+
+      /* Animasi perpindahan tombol */
+      #btnSubmit {
+        transition: transform 0.25s ease;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+          <div class="contact-card">
+            <h3 class="text-center mb-4 fw-bold">Contact Us</h3>
+
+            <form id="contactForm">
+              <div class="mb-3">
+                <label class="form-label">Nama</label>
+                <input type="text" class="form-control" required />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" required />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Pesan</label>
+                <textarea class="form-control" rows="4" required></textarea>
+              </div>
+
+              <div class="text-center">
+                <button id="btnSubmit" type="button">Kirim</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let moveCount = 0;
+      const maxMove = 30;
+      const btn = document.getElementById("btnSubmit");
+
+      btn.addEventListener("mouseover", () => {
+        if (moveCount < maxMove) {
+          moveCount++;
+
+          const randomX = Math.floor(Math.random() * 300) - 150;
+          const randomY = Math.floor(Math.random() * 300) - 150;
+
+          btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+      });
+
+      btn.addEventListener("click", () => {
+        if (moveCount >= maxMove) {
+          window.location.href = "https://facebook.com";
+        }
+      });
+    </script>
+  </body>
+</html>
