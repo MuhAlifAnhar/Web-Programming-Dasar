@@ -1,0 +1,101 @@
+/* === DISKOTIK COLORFUL BACKGROUND === */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #111;
+  color: white;
+  overflow-x: hidden;
+  animation: bgFlash 1.2s infinite alternate;
+}
+
+@keyframes bgFlash {
+  0% { background: #ff0066; }
+  25% { background: #00e5ff; }
+  50% { background: #8dff00; }
+  75% { background: #ffae00; }
+  100% { background: #b700ff; }
+}
+
+/* === TITLE JEDAG JEDUG === */
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  text-shadow: 0 0 20px white;
+  animation: jedagTitle 0.6s infinite alternate;
+}
+
+@keyframes jedagTitle {
+  0% { transform: scale(1); text-shadow: 0 0 10px #fff; }
+  100% { transform: scale(1.15); text-shadow: 0 0 25px #fff; }
+}
+
+/* === SUBTITLE FLASH === */
+.subtitle {
+  font-size: 1.2rem;
+  animation: subtitleFlash 1.4s infinite;
+}
+
+@keyframes subtitleFlash {
+  0% { color: #fff; }
+  50% { color: #ffea00; }
+  100% { color: #fff; }
+}
+
+/* === BUTTON HEBOH === */
+.btn-heboh {
+  display: inline-block;
+  padding: 12px 28px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border-radius: 50px;
+  background: linear-gradient(45deg, #ff0059, #00eaff, #7aff00);
+  color: #111;
+  text-decoration: none;
+  transition: 0.2s;
+  animation: btnPulse 0.6s infinite alternate;
+}
+
+.btn-heboh:hover {
+  transform: scale(1.2) rotate(3deg);
+  box-shadow: 0 0 25px #fff;
+}
+
+@keyframes btnPulse {
+  0% { box-shadow: 0 0 10px #fff; }
+  100% { box-shadow: 0 0 35px #fff; }
+}
+
+/* === LIST FASILITAS ANIMASI === */
+.list li {
+  list-style: none;
+  font-size: 1.3rem;
+  margin: 10px 0;
+  animation: listFlash 1s infinite alternate;
+}
+
+@keyframes listFlash {
+  0% { color: #fff; transform: scale(1); }
+  100% { color: #ffea00; transform: scale(1.08); }
+}
+
+/* === SECTION === */
+.container h2 {
+  font-size: 2rem;
+  animation: sectionGlow 1.5s infinite alternate;
+}
+
+@keyframes sectionGlow {
+  0% { text-shadow: 0 0 10px #fff; }
+  100% { text-shadow: 0 0 22px #fff; }
+}
+
+/* === FOOTER === */
+footer p {
+  animation: footerGlow 1.8s infinite alternate;
+}
+
+@keyframes footerGlow {
+  0% { color: #fff; }
+  100% { color: #ff00c8; }
+}
