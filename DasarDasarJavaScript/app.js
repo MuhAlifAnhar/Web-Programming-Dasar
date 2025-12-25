@@ -1,22 +1,9 @@
-let maximum = parseInt(prompt('Masukkan nilai maksimal!'));
+const students = {
+    Alif: 22,
+    Azizi: 21,
+    Zara: 22
+};
 
-while (!maximum) {
-    maximum = parseInt(prompt('Masukkan nilai Maksimal!'));
+for (let student in students) {
+    console.log(`${student} is ${students[student]} years old`);
 }
-
-const targetNum = Math.floor(Math.random() * maximum) + 1;
-console.log(targetNum);
-
-let guess = parseInt(prompt('Isi tebakan pertama kamu!'));
-let attempts = 1;
-
-while (parseInt(guess) !== targetNum) {
-    attempts++;
-    if (guess > targetNum) {
-        guess = prompt('Terlalu tinggi! tebak lagi:');
-    } else {
-        guess = prompt('Terlalu rendah! tebak lagi:');
-    }
-}
-
-alert (`Selamat Tebakan Anda benar! Dengan percobaan ${attempts} kali`);
