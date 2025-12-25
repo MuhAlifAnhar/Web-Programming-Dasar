@@ -1,11 +1,6 @@
-let keluarga = ['ibu', 'ayah', 'anak'];
+let student = ['alif', 'anhar', 'muh'];
+let guru = ['alif', 'anhar', 'muh'];
 
-keluarga.push('cucu');
+const sekolah = student.concat(guru);
 
-keluarga.push('nenek', 'kakek');
-
-keluarga.pop();
-
-console.log(keluarga);
-
-console.log(keluarga.length);
+console.log(sekolah);
