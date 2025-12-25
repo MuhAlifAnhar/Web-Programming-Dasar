@@ -1,6 +1,22 @@
-for (let i=0; i<=1000; i++){
-    console.log(i);
-    if(i === 100){
-        break;
+let maximum = parseInt(prompt('Masukkan nilai maksimal!'));
+
+while (!maximum) {
+    maximum = parseInt(prompt('Masukkan nilai Maksimal!'));
+}
+
+const targetNum = Math.floor(Math.random() * maximum) + 1;
+console.log(targetNum);
+
+let guess = parseInt(prompt('Isi tebakan pertama kamu!'));
+let attempts = 1;
+
+while (parseInt(guess) !== targetNum) {
+    attempts++;
+    if (guess > targetNum) {
+        guess = prompt('Terlalu tinggi! tebak lagi:');
+    } else {
+        guess = prompt('Terlalu rendah! tebak lagi:');
     }
 }
+
+alert (`Selamat Tebakan Anda benar! Dengan percobaan ${attempts} kali`);
