@@ -1,19 +1,5 @@
-const students = {
-    Alif: 22,
-    Azizi: 21,
-    Zara: 22
-};
-
-let total = 0;
-let umur = Object.values(students);
-
-console.log(umur);
-
-for (let umures of umur) {
-    total += umures;
-    console.log(total);
+function lemparDadu() {
+    console.log(Math.floor(Math.random() * 6)) + 1;
 }
 
-console.log(total / umur.length);
-
-console.log(65 / 3)
+console.log(lemparDadu());
