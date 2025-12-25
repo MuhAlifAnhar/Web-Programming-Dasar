@@ -1,8 +1,12 @@
-let str = 'abcd';
+let studentRow = [
+    ['alif', 'muh', 'anhar'],
+    ['azizi', 'shafa', 'asadel'],
+    ['adishty', 'zara', 'sundari']
+];
 
-for (let i = 0; i<=4; i++){
-    console.log(`${i+1}. Soal Nomor:`);
-    for (let j = 0; j<str.length; j++){
-        console.log(`     ${str[j]}. Pilihan Jawaban`);
+for (let i = 0; i<=studentRow.length; i++){
+    console.log(`Seat Row #${i+1}`);
+    for(let j=0; j<studentRow[i].length; j++){
+        console.log(`${j+1}. ${studentRow[i][j]}`);
     }
 }
