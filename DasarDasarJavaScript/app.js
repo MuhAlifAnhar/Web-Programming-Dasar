@@ -1,5 +1,6 @@
-function lemparDadu() {
-    console.log(Math.floor(Math.random() * 6)) + 1;
+function nyanyi() {
+    console.log('Cek...');
+    console.log('Do re mi..');
 }
 
-console.log(lemparDadu());
+nyanyi();
