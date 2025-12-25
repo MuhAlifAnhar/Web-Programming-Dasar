@@ -1,6 +1,5 @@
-function nyanyi() {
-    console.log('Cek...');
-    console.log('Do re mi..');
+function greet(name) {
+    console.log(`Hello, ${name}`);
 }
 
-nyanyi();
+greet ('Alif');
