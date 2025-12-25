@@ -4,6 +4,16 @@ const students = {
     Zara: 22
 };
 
-for (let student in students) {
-    console.log(`${student} is ${students[student]} years old`);
+let total = 0;
+let umur = Object.values(students);
+
+console.log(umur);
+
+for (let umures of umur) {
+    total += umures;
+    console.log(total);
 }
+
+console.log(total / umur.length);
+
+console.log(65 / 3)
