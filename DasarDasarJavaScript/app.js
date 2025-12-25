@@ -1,11 +1,9 @@
-const student = ['alif', 'anhar', 'muh'];
-const guru = ['alif', 'anhar', 'muh'];
+const board = [
+    [null, null, 'O'],
+    ['X', 'O', null],
+    ['O', 'X', null]
+];
 
-const sekolah = student.concat(guru);
-sekolah.sort();
+console.log(board);
 
-sekolah.reverse();
-
-sekolah.push('jokow');
-
-console.log(sekolah);
+console.log(board[1])
