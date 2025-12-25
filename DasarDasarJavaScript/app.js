@@ -1,9 +1,11 @@
-const board = [
-    [null, null, 'O'],
-    ['X', 'O', null],
-    ['O', 'X', null]
-];
+const kampus = {
+    jurusan : {
+        jurusan1 : 'Teknik Informatika',
+        jurusan2 : 'Bisnis Digital'
+    },
+    akreditas : 'A',
+    size: ['S', 'M', 'L', 'XL', 'XXL']
 
-console.log(board);
+}
 
-console.log(board[1])
+console.log(kampus.size[3]);
