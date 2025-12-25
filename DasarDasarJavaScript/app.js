@@ -1,12 +1,8 @@
-let studentRow = [
-    ['alif', 'muh', 'anhar'],
-    ['azizi', 'shafa', 'asadel'],
-    ['adishty', 'zara', 'sundari']
-];
+const PASSWORD = 'Pass123';
 
-for (let i = 0; i<=studentRow.length; i++){
-    console.log(`Seat Row #${i+1}`);
-    for(let j=0; j<studentRow[i].length; j++){
-        console.log(`${j+1}. ${studentRow[i][j]}`);
-    }
+let guess = prompt('Enter the password');
+while (guess !== PASSWORD) {
+    guess = prompt('password yang kamu masukkan salah, silahkan coba lagi');
 }
+
+alert('Selamat kamu berhasil login');
