@@ -1,20 +1,24 @@
-const kampus = {
-    jurusan : {
-        jurusan1 : 'Teknik Informatika',
-        jurusan2 : 'Bisnis Digital'
+const kampus = [
+    {
+        nama : 'Universitas Negeri Makassar',
+        singkatan : 'UNM'
     },
-    akreditas : 'A',
-    size: ['S', 'M', 'L', 'XL', 'XXL']
-}
+    {
+        nama : 'Universitas Hasanuddin',
+        singkatan : 'UNHAS'
+    },
+    {
+        nama : 'Universitas Dipa Makassar',
+        singkatan : 'UNDIPA'
+    }
+];
 
-kampus.jurusan.jurusan1 = 'Teknik Komputer';
+kampus[0].singkatan = 'UNEM';
 
-kampus.size[1] = 'Medium';
+kampus[3].nama = 'Universitas Musim Indonesia';
 
-kampus.rektor = 'Ridwan';
+kampus[3].singkatan = 'UMI';
 
-console.log(kampus.jurusan.jurusan1);
+console.log(kampus[3].singkatan);
 
-console.log(kampus.rektor);
-
-console.log(kampus.size[1]);
+console.log(kampus[0].singkatan);
