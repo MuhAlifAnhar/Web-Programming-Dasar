@@ -1,8 +1,6 @@
-const PASSWORD = 'Pass123';
-
-let guess = prompt('Enter the password');
-while (guess !== PASSWORD) {
-    guess = prompt('password yang kamu masukkan salah, silahkan coba lagi');
+for (let i=0; i<=1000; i++){
+    console.log(i);
+    if(i === 100){
+        break;
+    }
 }
-
-alert('Selamat kamu berhasil login');
