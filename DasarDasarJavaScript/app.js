@@ -1,3 +1,8 @@
-for (let i = 10; i<=100000; i*=10) {
-    console.log(i);
+let str = 'abcd';
+
+for (let i = 0; i<=4; i++){
+    console.log(`${i+1}. Soal Nomor:`);
+    for (let j = 0; j<str.length; j++){
+        console.log(`     ${str[j]}. Pilihan Jawaban`);
+    }
 }
