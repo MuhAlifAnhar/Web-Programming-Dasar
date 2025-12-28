@@ -1,13 +1,11 @@
-const aritmatika = {
-    perkalian: function (x, y) {
-        return x * y
-    },
-    pembagi: function (x, y) {
-        return x / y
-    },
-    pangkat: function (x){
-        return x* x
+const saya = {
+    nama: 'Alif',
+    hobi: 'Ngoding',
+    kenalan: function() {
+        return `Saya ${this.nama}. Hobi saya ${this.hobi}`
     }
 }
 
-console.log(aritmatika.pembagi(2, 2));
+saya.nama = 'Muh. Alif Anhar';
+
+console.log(saya.kenalan());
