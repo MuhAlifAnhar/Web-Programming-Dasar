@@ -1,15 +1,12 @@
-// let tinggi = 8;
+function funcLuar(){
+    const nilaiLuar = "Ini string nilai luar"
 
-// if (tinggi>5) {
-//     var lebar = 10;
-//     // console.log(lebar);
-// }
+    function funcDalam() {
+        let nilaiDalam = `di dalam mengambil ${nilaiLuar}`
+        console.log(nilaiDalam); 
+    }
 
-// console.log(lebar);
-
-for (let index=0; index<10; index++) {
-    var indexNumber = index;
-    // console.log(indexNumber);
+    funcDalam();
 }
 
-console.log(indexNumber);
+funcLuar();
