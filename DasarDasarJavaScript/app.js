@@ -1,10 +1,9 @@
-function jumlahkan(a=0, b=0) {
-    const total = a+b;
-    return total;
+let linux = 'RedHat';
 
-    console.log('iyya');
+function easyLinux() {
+    linux = 'Debian';
+    console.log(linux);
 }
 
-let hasil = jumlahkan(1,2) + 3;
-
-console.log(hasil);
+// easyLinux();
+console.log(linux);
