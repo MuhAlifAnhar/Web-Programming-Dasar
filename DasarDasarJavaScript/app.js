@@ -1,5 +1,12 @@
-const perpangkatan = function (nilai) {
-    return nilai*nilai;
+function duaKali(func) {
+    func();
+    func();
+    func();
 }
 
-console.log(perpangkatan(5));
+function lemparDadu() {
+    const nilai = Math.floor(Math.random() * 6) + 1;
+    console.log(nilai);
+}
+
+duaKali(lemparDadu);
