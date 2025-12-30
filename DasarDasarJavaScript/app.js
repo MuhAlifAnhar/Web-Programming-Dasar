@@ -16,6 +16,8 @@ const animes = [
     }
 ];
 
-animes.forEach(function(anime) {
-    console.log(`${anime.name} - ${anime.genre} - ${anime.episodes}`);
+const animeList = animes.map(function(anime){
+    return anime.name
 })
+
+console.log(animeList);
