@@ -1,11 +1,21 @@
-const saya = {
-    nama: 'Alif',
-    hobi: 'Ngoding',
-    kenalan: function() {
-        return `Saya ${this.nama}. Hobi saya ${this.hobi}`
+const animes = [
+    {
+        name: 'Naruto',
+        genre: 'Shounen',
+        episodes: 700
+    },
+    {
+        name: 'One Piece',
+        genre: 'Shounen',
+        episodes: 1000
+    },
+    {
+        name: 'Bleach',
+        genre: 'Shounen',
+        episodes: 500
     }
-}
+];
 
-saya.nama = 'Muh. Alif Anhar';
-
-console.log(saya.kenalan());
+animes.forEach(function(anime) {
+    console.log(`${anime.name} - ${anime.genre} - ${anime.episodes}`);
+})
