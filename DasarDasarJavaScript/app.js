@@ -1,11 +1,10 @@
-const user = {
-    name: 'User',
-    email: 'User@gmail.com'
+const nama = ['Alif', 'Azizi', 'Putra', 'Anhar', 'Rahman', 'Maulana', 'Muh.'];
+
+const pemenang = (gold, silver, bronze, ...sisa) => {
+    console.log(`Mendali emas diraih: ${gold}`);
+    console.log(`Mendali perak diraih: ${silver}`);
+    console.log(`Mendali perunggu diraih: ${bronze}`);
+    console.log(`Peserta lainnya: ${sisa}`);
 }
 
-const userDb = {
-    ...user,
-    role: 'Admin'
-}
-
-console.log(userDb);
+console.log(pemenang(...nama));
