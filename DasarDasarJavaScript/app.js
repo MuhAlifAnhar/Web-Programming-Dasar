@@ -1,5 +1,11 @@
-const angka = [1,2,3,4];
-const nama = ['Alif','Azizi', 'Flora', 'Fauziah'];
+const user = {
+    name: 'User',
+    email: 'User@gmail.com'
+}
 
-const campuran = [...angka, ...nama];
-console.log(campuran);
+const userDb = {
+    ...user,
+    role: 'Admin'
+}
+
+console.log(userDb);
