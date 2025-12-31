@@ -1,26 +1,29 @@
-const animeList = [
+const animesList = [
     {
-        id: 1,
-        judul: "Naruto",
+        name: "Naruto",
+        episode: 700,
         genre: "Action",
-        rating: 8.7
+        rating: 7.3
     },
     {
-        id: 2,
-        judul: "One Piece",
-        genre: "Adventure",
-        rating: 9.0
+        name: "Naruto Shippuden",
+        episode: 700,
+        genre: "Action",
+        rating: 9.3
     },
     {
-        id: 3,
-        judul: "Bleach",
+        name: "Shippuden",
+        episode: 700,
         genre: "Action",
-        rating: 8.9
+        rating: 8.3
     }
 ];
 
-const animeFavorit = animeList.every((anime) => {
-    return anime.rating >= 8;
+const bestAnime = animesList.reduce((bestAnime, currentAnime) => {
+    if (currentAnime.rating > bestAnime.rating) {
+        return currentAnime;
+    }
+    return bestAnime;
 })
 
-console.log(animeFavorit);
+console.log(bestAnime);
