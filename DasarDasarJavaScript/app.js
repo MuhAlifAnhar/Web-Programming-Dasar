@@ -1,5 +1,5 @@
-const angka = [1,2,3,4]
+const angka = [1,2,3,4];
+const nama = ['Alif','Azizi', 'Flora', 'Fauziah'];
 
-console.log(Math.max(angka));
-
-console.log(Math.max(...angka));
+const campuran = [...angka, ...nama];
+console.log(campuran);
