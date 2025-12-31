@@ -1,24 +1,26 @@
-const animes = [
+const animeList = [
     {
-        name: 'Naruto',
-        episode: 700
+        id: 1,
+        judul: "Naruto",
+        genre: "Action",
+        rating: 8.7
     },
     {
-        name: 'One Piece',
-        episode: 1100
+        id: 2,
+        judul: "One Piece",
+        genre: "Adventure",
+        rating: 9.0
     },
     {
-        name: 'Bleach',
-        episode: 500
+        id: 3,
+        judul: "Bleach",
+        genre: "Action",
+        rating: 8.9
     }
 ];
 
-const anime = animes.filter((anime) => {
-    return anime.episode > 500
+const animeFavorit = animeList.every((anime) => {
+    return anime.rating >= 8;
 })
 
-const anim = anime.map((a) => {
-    return a.name
-})
-
-console.log(anim);
+console.log(animeFavorit);
