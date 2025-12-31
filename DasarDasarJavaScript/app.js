@@ -1,3 +1,4 @@
-const alif = (a, b) => a + b;
+const interval = setInterval(() => {
+    console.log(Math.floor(Math.random() * 100));
+}, 2000);
 
-console.log(alif(1,2));
