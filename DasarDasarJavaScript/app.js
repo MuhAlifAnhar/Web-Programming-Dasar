@@ -1,8 +1,10 @@
-const nama = ['Alif', 'Azizi', 'Putra', 'Anhar', 'Rahman', 'Maulana', 'Muh.'];
+const user = {
+    name: 'Alif',
+    email: 'alif@gmail.com'
+};
 
-const [gold, silver, bronze, ...peserta] = nama;
+const {name: nama, email, phone = '082187726505'} = user;
 
-console.log(gold);
-console.log(silver);
-console.log(bronze);
-console.log(peserta);
+console.log(nama);
+console.log(email);
+console.log(phone);
