@@ -1,29 +1,15 @@
-const animesList = [
-    {
-        name: "Naruto",
-        episode: 700,
-        genre: "Action",
-        rating: 7.3
+const person = {
+    firstName: 'John',
+    lastName: 'Doe',
+    fullName: function () {
+        return `${this.firstName} ${this.lastName}`;
     },
-    {
-        name: "Naruto Shippuden",
-        episode: 700,
-        genre: "Action",
-        rating: 9.3
-    },
-    {
-        name: "Shippuden",
-        episode: 700,
-        genre: "Action",
-        rating: 8.3
-    }
-];
 
-const bestAnime = animesList.reduce((bestAnime, currentAnime) => {
-    if (currentAnime.rating > bestAnime.rating) {
-        return currentAnime;
+    panggilNanti: function () {
+        setTimeout(() => {
+            console.log(this.firstName);
+        }, 2000);
     }
-    return bestAnime;
-})
+};
 
-console.log(bestAnime);
+console.log(`${person.fullName()} ${person.panggilNanti()}`);
