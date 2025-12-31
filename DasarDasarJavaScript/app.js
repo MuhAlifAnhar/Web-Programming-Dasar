@@ -1,5 +1,5 @@
-function sapa(name='Alif', msg='adakah') {
-    console.log(`${name} ${msg}`);
-}
+const angka = [1,2,3,4]
 
-console.log(sapa());
+console.log(Math.max(angka));
+
+console.log(Math.max(...angka));
