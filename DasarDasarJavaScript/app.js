@@ -1,10 +1,24 @@
-const user = {
-    name: 'Alif',
-    email: 'alif@gmail.com'
-};
+const animes = [
+    {
+        name: 'Naruto',
+        genre: 'Shonen'
+    },
+    {
+        name: 'One Piece',
+        genre: 'Shonen'
+    },
+    {
+        name: 'Bleach',
+        genre: 'Shonen'
+    },
+    {
+        name: 'Naruto Shippuden',
+        genre: 'Shonen'
+    }
+]
 
-const {name: nama, email, phone = '082187726505'} = user;
+const anime = animes.map(({name, genre}) => {
+    return `${name} ${genre}`;
+})
 
-console.log(nama);
-console.log(email);
-console.log(phone);
+console.log(anime);
