@@ -1,5 +1,3 @@
-const perpangkatan = (x) => {
-    return x * x;
-}
+const alif = (a, b) => a + b;
 
-console.log(perpangkatan(5));
+console.log(alif(1,2));
