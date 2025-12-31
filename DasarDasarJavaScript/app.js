@@ -1,15 +1,5 @@
-const person = {
-    firstName: 'John',
-    lastName: 'Doe',
-    fullName: function () {
-        return `${this.firstName} ${this.lastName}`;
-    },
+function sapa(name='Alif', msg='adakah') {
+    console.log(`${name} ${msg}`);
+}
 
-    panggilNanti: function () {
-        setTimeout(() => {
-            console.log(this.firstName);
-        }, 2000);
-    }
-};
-
-console.log(`${person.fullName()} ${person.panggilNanti()}`);
+console.log(sapa());
