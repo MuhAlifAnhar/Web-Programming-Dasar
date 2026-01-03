@@ -1,7 +1,20 @@
-console.log('pertama');
+setTimeout(function () {
+    document.body.style.backgroundColor = 'red';
+        setTimeout(function () {
+            document.body.style.backgroundColor = 'yellow';
+                setTimeout(function () {
+                    document.body.style.backgroundColor = 'green';
+                        setTimeout(function () {
+                            document.body.style.backgroundColor = 'blue';
+                        }, 1000);
+                }, 1000);
+        }, 1000);
+}, 1000);
 
-setTimeout(() => {
-    console.log('ini udh masuk ke memory proses tapi dijalankan setelah 3 detik kedepan')
-}, 3000);
+// setTimeout(function () {
+//     document.body.style.backgroundColor = 'red';
+// }, 2000);
 
-console.log('kedua');
+// setTimeout(function () {
+//     document.body.style.backgroundColor = 'yellow';
+// }, 3000);
