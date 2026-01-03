@@ -1,41 +1,33 @@
-const requestCallback = (url, success, failure) => {
-    const delay = Math.floor(Math.random() * 4500) + 500;
-    setTimeout(() => {
-        if (delay > 4000) {
-            failure('Error: Connection Timeout');
-        } else {
-            success(`Success: ${url} (${delay}ms)`);
-        }
-    }, delay)
-}
+// const contohPromise = () => {
+//     return new Promise ((resolve, reject) => {
+//     // resolve(() => {
+//     //     console.log('berhasil')
+//     // });
+//     reject(() => {
+//         'gagal';
+//     })
+// })
+// }
 
-const requestPromise = (url) => {
+// const req = contohPromise();
+
+// console.log(req);
+
+const delayedColorChange = (color, delay) => {
     return new Promise((resolve, reject) => {
-        const delay = Math.floor(Math.random() * 4500) + 500;
         setTimeout(() => {
-            if (delay > 3000) {
-                reject('Error: Connection Timeout');
-            } else {
-                resolve(`Success: ${url} (${delay}ms)`);
-            }
+            document.body.style.backgroundColor = color;
+            resolve() ;
         }, delay);
     });
-};
+}
 
-requestPromise('google.com')
-    .then((result) => {
-        console.log('page 1');
-        console.log(result);
-        return requestPromise('google.com');
-    })
-    .then(() => {
-        console.log('page 2');
-        return requestPromise('google.com');
-    })
-    .then(() => {
-        console.log('page 3');
-        return requestPromise('google.com');
-    })
-    .catch((error) => {
-        console.log(error);
-    })
+delayedColorChange('red', 1000)
+    .then(() => delayedColorChange('yellow', 1000))
+    .then(() => delayedColorChange('green', 1000))
+    .then(() => delayedColorChange('blue', 1000))
+    .then(() => delayedColorChange('black', 1000))
+    .then(() => delayedColorChange('yellow', 1000))
+    .then(() => delayedColorChange('green', 1000))
+    .then(() => delayedColorChange('blue', 1000))
+    .then(() => delayedColorChange('black', 1000));
