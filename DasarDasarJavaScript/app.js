@@ -21,3 +21,14 @@ const requestPromise = (url) => {
         }, delay);
     });
 };
+
+requestCallback('movie.com', function (response) {
+    console.log('it works', response);
+    requestCallback('movie.com', function (response) {
+        console.log('it works', response);
+    }, function(error) {
+        console.log('it failed', error);
+    })
+}, function(error) {
+    console.log('it failed', error);
+})
