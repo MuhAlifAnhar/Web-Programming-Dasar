@@ -23,9 +23,19 @@ const requestPromise = (url) => {
 };
 
 requestPromise('google.com')
-    .then((response) => {
-        console.log('success', response);
+    .then((result) => {
+        console.log('page 1');
+        console.log(result);
+        return requestPromise('google.com');
+    })
+    .then(() => {
+        console.log('page 2');
+        return requestPromise('google.com');
+    })
+    .then(() => {
+        console.log('page 3');
+        return requestPromise('google.com');
     })
     .catch((error) => {
-    console.log('error', error)
-    });
+        console.log(error);
+    })
