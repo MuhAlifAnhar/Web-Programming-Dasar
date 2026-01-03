@@ -1,9 +1,7 @@
-const perkalian = (x,y) => x*y;
+console.log('pertama');
 
-const akar = (x) => perkalian(x,x);
+setTimeout(() => {
+    console.log('ini udh masuk ke memory proses tapi dijalankan setelah 3 detik kedepan')
+}, 3000);
 
-const pythagoras = (a,b,c) => {
-    return `${akar(a)} + ${akar(b)} === ${akar(c)}`
-}
-
-console.log(pythagoras(3,4,5));
+console.log('kedua');
