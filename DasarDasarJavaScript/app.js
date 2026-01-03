@@ -1,92 +1,38 @@
-class Color {
-    constructor(r,g,b,name) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-        this.name = name;
-        this.calcHSL();
+class Peliharaan {
+    constructor(nama, age) {
+        this.nama = nama;
+        this.age = age;
     }
 
-    innerRGB() {
-        const { r,g,b } = this;
-        return `rgb(${r}, ${g}, ${b})`;
-    }
-
-    colorName() {
-        console.log('The color is ' + this.name);
-    }
-
-    rgb() {
-        return `rgb(${this.innerRGB()})`;
-    }
-
-    hex() {
-        const { r,g,b } = this;
-        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-    }
-
-    rgba(a = 1.0) {
-        const { r,g,b } = this;
-        return `rgba(${r}, ${g}, ${b}, ${a})`;
-    }
-
-    hsl() {
-        const { h,s,l } = this;
-        return `hsl(${h}, ${s}%, ${l}%)`;
-    }
-
-    fullySaturated() {
-        const { h,l } = this;
-        return `hsl(${h}, 100%, ${l}%)`;
-    }
-
-    opposite() {
-        const { h,s,l } = this;
-        const newHue = (h + 180) % 360;
-        return `hsl(${newHue}, ${s}%, ${l}%)`;
-    }
-
-    calcHSL() {
-        let { r,g,b } = this;
-        r /= 255;
-        g /= 255;
-        b /= 255;
-
-        let cmin = Math.min(r,g,b),
-            cmax = Math.max(r,g,b),
-            delta = cmax - cmin,
-            h = 0,
-            s = 0,
-            l = 0;
-
-        if(delta === 0) h=0;
-        else if(cmax == r) h = ((g-b) / delta) % 6;
-        else if(cmax == g) h = (b-r) / delta + 2;
-        else h = (r-g) / delta + 4;
-
-        h = Math.round(h * 60);
-
-        if(h<0) h += 360;
-
-        l = (cmax+cmin)/2;
-        s = delta == 0 ? 0 : delta / (1 - Math.abs(2*l-1));
-
-        s = +(s*100).toFixed(1);
-        l = +(l*100).toFixed(1);
-
-        this.h = h;
-        this.s = s;
-        this.l = l;
+    makan() {
+        return `${this.nama} sedang makan`;
     }
 }
 
-const skyColor = new Color(185, 243, 252, 'sky blue');
+class Kucing extends Peliharaan {
+    constructor(nama, age, nyawa) {
+        super(nama, age);
+        this.nyawa = nyawa;
+    }
+    meong() {
+        return `meong meong meong`;
+    }
+}
 
+class Ajing extends Peliharaan {
+    gong() {
+        return `gong gong gong`;
+    }
+}
 
-console.log(skyColor.hex());
+const kucing = new Kucing ('Meong', 2);
 
-console.log(document.body.style.backgroundColor = skyColor.hsl());
+const anjing = new Ajing ('Anjing', 3);
 
-console.log(document.body.style.backgroundColor = skyColor.fullySaturated());
+console.log(kucing.makan());
 
-console.log(document.body.style.backgroundColor = skyColor.opposite());
+console.log(anjing.makan());
+
+console.log(kucing.meong());
+
+console.log(anjing.gong());
