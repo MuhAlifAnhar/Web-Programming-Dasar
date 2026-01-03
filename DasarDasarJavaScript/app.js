@@ -1,26 +1,23 @@
-const delayedColorChange = (color, delay) => {
+const requestPromise = (url) => {
     return new Promise((resolve, reject) => {
+        const delay = Math.floor(Math.random() * 4500) + 500;
         setTimeout(() => {
-            document.body.style.backgroundColor = color;
-            resolve();
+            if (delay > 2000) {
+                reject('Error: Connection Timeout');
+            } else {
+                resolve(`Success: ${url} (${delay}ms);`)
+            }
         }, delay);
-    })
+    });
+};
+
+async function requestHandler() {
+    try {
+        let result = await requestPromise('google.com');
+        console.log(result);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-async function changeColor() {
-    await delayedColorChange('red', 1000);
-    await delayedColorChange('orange', 1000);
-    await delayedColorChange('yellow', 1000);
-    await delayedColorChange('green', 1000);
-    await delayedColorChange('blue', 1000);
-    await delayedColorChange('indigo', 1000);
-    await delayedColorChange('violet', 1000);
-    return 'All done!';
-}
-
-async function printRainbow() {
-    await changeColor();
-    console.log('done');
-}
-
-printRainbow();
+requestHandler();
