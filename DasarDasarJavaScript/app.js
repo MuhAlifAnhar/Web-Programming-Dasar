@@ -1,28 +1,12 @@
-// import { mkdir } from 'node:fs';
+const penjumlahan = (a,b) => a+b;
 
-const fs = require('fs');
-const folderName = process.argv[2] || 'project';
+const PI = 3.14;
 
-// fs.mkdir('project', {
-//     recursive: true
-// }, (err) => {
-//     console.log('di dalam callback');
-//     if (err)
-//         throw err;
-// });
+const luas = (jari) => PI * jari * jari;
 
-try {
-    fs.mkdirSync(folderName);
+const keliling = (jari) => 2 * PI * jari;
 
-    console.log('setelah fungsi mkdir');
-
-    fs.writeFileSync(`${folderName}/yey.html`, '');
-
-    fs.writeFileSync(`${folderName}/y.html`, '');
-
-    fs.writeFileSync(`${folderName}/ey.html`, '');
-
-    console.log('berhasil');
-} catch (error) {
-    console.log(error);
-}
+module.exports.penjumlahan = penjumlahan;
+module.exports.PI = PI;
+module.exports.luas = luas;
+module.exports.keliling = keliling;
