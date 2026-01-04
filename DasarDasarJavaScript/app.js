@@ -1,23 +1,28 @@
-const requestPromise = (url) => {
-    return new Promise((resolve, reject) => {
-        const delay = Math.floor(Math.random() * 4500) + 500;
-        setTimeout(() => {
-            if (delay > 2000) {
-                reject('Error: Connection Timeout');
-            } else {
-                resolve(`Success: ${url} (${delay}ms);`)
-            }
-        }, delay);
-    });
-};
+// import { mkdir } from 'node:fs';
 
-async function requestHandler() {
-    try {
-        let result = await requestPromise('google.com');
-        console.log(result);
-    } catch (error) {
-        console.log(error);
-    }
+const fs = require('fs');
+const folderName = process.argv[2] || 'project';
+
+// fs.mkdir('project', {
+//     recursive: true
+// }, (err) => {
+//     console.log('di dalam callback');
+//     if (err)
+//         throw err;
+// });
+
+try {
+    fs.mkdirSync(folderName);
+
+    console.log('setelah fungsi mkdir');
+
+    fs.writeFileSync(`${folderName}/yey.html`, '');
+
+    fs.writeFileSync(`${folderName}/y.html`, '');
+
+    fs.writeFileSync(`${folderName}/ey.html`, '');
+
+    console.log('berhasil');
+} catch (error) {
+    console.log(error);
 }
-
-requestHandler();
